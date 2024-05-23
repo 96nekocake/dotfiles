@@ -1,0 +1,6 @@
+nvim/lazyvim.json
+nvim/lazy-lock.json
+sketchybar/plugins
+.DS_Store
+.gitconfig.local
+wezterm/img

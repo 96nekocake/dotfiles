@@ -1,0 +1,12 @@
+[alias]
+    br = branch
+    cm = commit -m
+    ch = checkout
+    see = browse
+    st = status
+    gr = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+    cl = "clone"
+    brdel = git push origin --delete remoteBranchName
+
+[include]
+    path = .gitconfig.local
