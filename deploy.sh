@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directories=(nvim sketchybar skhd wezterm yabai neofetch)
+directories=(nvim sketchybar skhd wezterm yabai neofetch silicon)
 files=(.zshrc .tmux.conf .gitconfig .gitconfig.local)
 
 # デプロイ確認
