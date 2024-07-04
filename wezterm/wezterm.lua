@@ -36,4 +36,6 @@ return {
 	},
 	-- enable_tab_bar = false,
 	window_decorations = "RESIZE",
+
+	default_prog = { "wezterm", "start", "--always-new-process" },
 }

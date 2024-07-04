@@ -1,0 +1,12 @@
+[window]
+padding = {x = 10,y = 10}
+opacity = 0.6
+# blur = true
+
+
+[font]
+size = 10.55
+
+[colors]
+transparent_background_colors = false
+
