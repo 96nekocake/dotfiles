@@ -10,3 +10,6 @@
 
 [include]
     path = .gitconfig.local
+[user]
+	email = 96nekocake@gmail.com
+	name = Narrumi
