@@ -6,7 +6,7 @@ local wezterm = require("wezterm")
 return {
 	initial_cols = 100,
 	initial_rows = 40,
-	font_size = 14.0,
+	font_size = 15.0,
 	cell_width = 1.0,
 	line_height = 1.0,
 	status_update_interval = 1000,
