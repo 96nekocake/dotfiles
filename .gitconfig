@@ -10,16 +10,3 @@
 
 [include]
     path = .gitconfig.local
-[core]
-	excludesfile = /Users/narumi/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[user]
-	name = akito.nakatani
-	email = akito.nakatani1022@gmail.com
-[commit]
-	template = /Users/narumi/.stCommitMsg
