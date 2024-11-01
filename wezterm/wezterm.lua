@@ -13,8 +13,8 @@ return {
 	color_scheme = "iceberg-dark",
 	use_fancy_tab_bar = false,
 	hide_tab_bar_if_only_one_tab = true,
-	window_background_opacity = 0.35,
-	text_background_opacity = 0.75,
+	window_background_opacity = 0.8,
+	text_background_opacity = 0.8,
 	window_padding = {
 		left = 0,
 		right = 0,
