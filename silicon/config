@@ -1,0 +1,6 @@
+# enable shadow
+--shadow-color '#070707'
+--background '#434343'
+--shadow-blur-radius 30
+-f 'Cica'
+# --no-window-controls
