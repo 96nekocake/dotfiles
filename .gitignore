@@ -1,0 +1,57 @@
+# エディタ関連
+.vscode/              # VS Codeの設定ファイル
+*.swp                 # Neovimのスワップファイル
+*.swo
+*.swn
+*.un~
+.netrwhist            # Neovimの履歴ファイル
+.viminfo              # Neovimの情報ファイル
+
+# 一時ファイルやバックアップ
+*.tmp                 # 一時ファイル
+*.temp
+*.bak
+*.old
+*.orig
+*.log                 # ログファイル
+*.lock                # ロックファイル
+
+# macOS関連
+.DS_Store             # macOSのメタデータファイル
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Node.jsやツール関連
+node_modules/         # Node.jsのモジュール
+*.cache               # キャッシュファイル
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Luaフォーマッター設定（生成ファイル）
+*.stylua.toml         # Luaフォーマッターの一時設定
+
+# Lazy.nvim関連
+nvim/lazy-lock.json
+
+# Hyprland関連
+hypr/*.lock           # Hyprlandの一時ロックファイル（もしあれば）
+
+# その他
+*.~                   # 一時バックアップファイル
+*~                    # Vimのバックアップファイル
+tags                  # ctags生成ファイル
+session.*             # セッションファイル
+
+# 環境変数関連のファイル
+.env
+.env.*
+!.env.example 
