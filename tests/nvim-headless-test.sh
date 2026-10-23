@@ -12,8 +12,13 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
 ln -s "$repo/nvim" "$XDG_CONFIG_HOME/nvim"
 
 # Install plugins in a disposable XDG tree. Keep failures visible to Actions.
-timeout 240 nvim --headless '+Lazy! sync' '+qa'
+log="$tmp/nvim.log"
+timeout 240 nvim --headless '+Lazy! sync' '+qa' 2>&1 | tee "$log"
 timeout 60 nvim --headless \
   -c 'lua if not package.loaded.lazy then vim.cmd("cquit 1") end' \
-  -c 'qa'
+  -c 'qa' 2>&1 | tee -a "$log"
+if grep -E 'Error in command line:|Failed to run `config`|Vim:E[0-9]+|Error detected while processing' "$log"; then
+  printf 'Neovim reported a startup or plugin error\n' >&2
+  exit 1
+fi
 printf 'Neovim headless smoke test passed\n'
