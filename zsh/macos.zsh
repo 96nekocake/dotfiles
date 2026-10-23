@@ -5,10 +5,9 @@ alias op='open /Applications/Opera.app/'
 alias viva='open /Applications/Vivaldi.app/'
 alias lh='open -a "Google Chrome" http://localhost:80/'
 
-# tool
+# Tools
 alias dis='open /Applications/Discord.app/'
 alias fig='open /Applications/Figma.app/'
 alias oji='ojichat-rs'
 
-source $HOME/dotfiles/zsh/myPlug/browserSearch.zsh
-
+source "$SCRIPT_DIR/zsh/myPlug/browserSearch.zsh"
