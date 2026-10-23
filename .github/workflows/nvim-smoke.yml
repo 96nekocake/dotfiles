@@ -1,0 +1,25 @@
+name: Neovim smoke
+
+on:
+  pull_request:
+    branches: [wip]
+
+permissions:
+  contents: read
+
+jobs:
+  startup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install pinned Neovim
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 -o nvim.tar.gz https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-x86_64.tar.gz
+          echo 'bce0f56eda1f1b1db6eee8f4133d7a38813ea07933837dd1777411ca384c6875  nvim.tar.gz' | sha256sum -c -
+          tar -xzf nvim.tar.gz
+          echo "$PWD/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
+      - name: Start config and install plugins
+        run: bash tests/nvim-headless-test.sh
