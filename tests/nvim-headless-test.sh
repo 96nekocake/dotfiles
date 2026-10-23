@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo=$(cd "$(dirname "$0")/.." && pwd -P)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+export XDG_CONFIG_HOME="$tmp/config"
+export XDG_DATA_HOME="$tmp/data"
+export XDG_STATE_HOME="$tmp/state"
+export XDG_CACHE_HOME="$tmp/cache"
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+ln -s "$repo/nvim" "$XDG_CONFIG_HOME/nvim"
+
+# Install plugins in a disposable XDG tree. Keep failures visible to Actions.
+timeout 240 nvim --headless '+Lazy! sync' '+qa'
+timeout 60 nvim --headless \
+  -c 'lua if not package.loaded.lazy then vim.cmd("cquit 1") end' \
+  -c 'qa'
+printf 'Neovim headless smoke test passed\n'
