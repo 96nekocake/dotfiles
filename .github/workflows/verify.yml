@@ -25,3 +25,18 @@ jobs:
           if compgen -G 'tests/*-test.sh' > /dev/null; then
             for test_file in tests/*-test.sh; do bash "$test_file"; done
           fi
+
+  nvim-lua:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Lua 5.1
+        run: sudo apt-get update && sudo apt-get install -y lua5.1
+      - name: Check Neovim Lua syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            luac5.1 -p "$file"
+          done < <(find nvim -type f -name '*.lua' -print0)
