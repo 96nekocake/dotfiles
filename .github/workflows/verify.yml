@@ -1,0 +1,27 @@
+name: Config checks
+
+on:
+  pull_request:
+    branches: [wip]
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: Check syntax and isolated tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n deploy.sh
+          zsh -n .zshrc
+          for file in zsh/*.zsh; do zsh -n "$file"; done
+          if compgen -G 'tests/*-test.sh' > /dev/null; then
+            for test_file in tests/*-test.sh; do bash "$test_file"; done
+          fi
