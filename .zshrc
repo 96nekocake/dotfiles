@@ -1,59 +1,57 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Keep Powerlevel10k's instant prompt near the beginning of ~/.zshrc.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# -----------------------------
-# Added by Zinit's installer
-# -----------------------------
-
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
+# Zinit installs itself on the first interactive startup.
+if [[ ! -f "$HOME/.local/share/zinit/zinit.git/zinit.zsh" ]]; then
+  print -P "%F{33}Installing zinit…%f"
+  command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+  command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" ||
+    print -P "%F{160}The zinit installation failed.%f"
 fi
 
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# -----------------------------
-# End of Zinit's installer chunk
-# -----------------------------
+# :A resolves the ~/.zshrc symlink to its checkout, including paths with spaces.
+SCRIPT_DIR="${${(%):-%x}:A:h}"
 
-SCRIPT_DIR=$HOME/dotfiles
+source "$SCRIPT_DIR/zsh/alias.zsh"
+source "$SCRIPT_DIR/zsh/plugins.zsh"
+source "$SCRIPT_DIR/zsh/basic.zsh"
+source "$SCRIPT_DIR/zsh/visual.zsh"
+source "$SCRIPT_DIR/zsh/history.zsh"
+source "$SCRIPT_DIR/zsh/complement.zsh"
 
-source $SCRIPT_DIR/zsh/alias.zsh
-source $SCRIPT_DIR/zsh/plugins.zsh
-source $SCRIPT_DIR/zsh/p10k.zsh
-source $SCRIPT_DIR/zsh/peco.zsh
-source $SCRIPT_DIR/zsh/cdr.zsh
-source $SCRIPT_DIR/zsh/basic.zsh
-source $SCRIPT_DIR/zsh/visual.zsh
-source $SCRIPT_DIR/zsh/history.zsh
-source $SCRIPT_DIR/zsh/complement.zsh
+# Initialize completion once, after zsh-completions has been added to fpath.
+autoload -Uz compinit
+compinit
 
-PATH=$PATH:$HOME/bin:/usr/local/go/bin
-
-
-export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
-export PATH="$JAVA_HOME/bin:$PATH"
-
-# Load OS specific settings
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    source $SCRIPT_DIR/zsh/macos.zsh
+source "$SCRIPT_DIR/zsh/cdr.zsh"
+if (( $+commands[peco] )); then
+  source "$SCRIPT_DIR/zsh/peco.zsh"
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/p10k.zsh.
-[[ ! -f ~/dotfiles/zsh/p10k.zsh ]] || source ~/dotfiles/zsh/p10k.zsh
+export PATH="$PATH:$HOME/bin:/usr/local/go/bin"
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  source "$SCRIPT_DIR/zsh/macos.zsh"
+  if (( $+commands[brew] )); then
+    java_prefix=$(brew --prefix openjdk@17 2>/dev/null) || java_prefix=''
+    if [[ -n "$java_prefix" && -d "$java_prefix/bin" ]]; then
+      export JAVA_HOME="$java_prefix"
+      export PATH="$JAVA_HOME/bin:$PATH"
+    fi
+    unset java_prefix
+  fi
+fi
+
+# Load the prompt configuration only once.
+[[ ! -r "$SCRIPT_DIR/zsh/p10k.zsh" ]] || source "$SCRIPT_DIR/zsh/p10k.zsh"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
+[[ ! -s "$NVM_DIR/nvm.sh" ]] || source "$NVM_DIR/nvm.sh"
+[[ ! -s "$NVM_DIR/bash_completion" ]] || source "$NVM_DIR/bash_completion"
 export EDITOR=nvim
