@@ -2,7 +2,6 @@ name: Neovim smoke
 
 on:
   pull_request:
-    branches: [wip]
 
 permissions:
   contents: read
