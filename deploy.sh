@@ -55,7 +55,7 @@ for file in .zshrc .tmux.conf .gitconfig; do
   link_one "$repo_dir/$file" "$HOME/$file"
 done
 
-for dir in nvim wezterm neofetch silicon alacritty "${platform_dirs[@]}"; do
+for dir in nvim wezterm neofetch silicon alacritty spotifyd "${platform_dirs[@]}"; do
   link_one "$repo_dir/$dir" "$config_dir/$dir"
 done
 link_one "$repo_dir/starship/starship.toml" "$config_dir/starship.toml"
