@@ -1,6 +1,6 @@
-# plugin
+# Plugins
 zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit light zdharma/fast-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light paulirish/git-open
 zinit light zsh-users/zsh-completions
@@ -20,5 +20,4 @@ zinit light eza-community/eza
 zinit ice as"program" from"gh-r" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
 
-# setting
 bindkey '^j' autosuggest-accept
