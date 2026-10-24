@@ -2,6 +2,8 @@ name: Neovim smoke
 
 on:
   pull_request:
+    # Include the stacked base until PR #16 lands; narrow to wip before merging.
+    branches: [wip, audit/nvim-dedup-20261024]
 
 permissions:
   contents: read
