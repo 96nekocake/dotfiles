@@ -1,0 +1,13 @@
+[window]
+padding = {x = 10,y = 10}
+opacity = 0.6
+# blur = true
+
+
+[font]
+normal = { family = "Cica", style = "Regular" }
+size = 16.55
+
+[colors]
+transparent_background_colors = false
+
