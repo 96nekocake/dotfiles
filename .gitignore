@@ -1,23 +1,31 @@
 # エディタ関連
-.vscode/              # VS Codeの設定ファイル
-*.swp                 # Neovimのスワップファイル
+# VS Codeの設定ファイル
+.vscode/
+# Neovimのスワップファイル
+*.swp
 *.swo
 *.swn
 *.un~
-.netrwhist            # Neovimの履歴ファイル
-.viminfo              # Neovimの情報ファイル
+# Neovimの履歴ファイル
+.netrwhist
+# Neovimの情報ファイル
+.viminfo
 
 # 一時ファイルやバックアップ
-*.tmp                 # 一時ファイル
+# 一時ファイル
+*.tmp
 *.temp
 *.bak
 *.old
 *.orig
-*.log                 # ログファイル
-*.lock                # ロックファイル
+# ログファイル
+*.log
+# ロックファイル
+*.lock
 
 # macOS関連
-.DS_Store             # macOSのメタデータファイル
+# macOSのメタデータファイル
+.DS_Store
 .AppleDouble
 .LSOverride
 ._*
@@ -30,26 +38,34 @@ Temporary Items
 .apdisk
 
 # Node.jsやツール関連
-node_modules/         # Node.jsのモジュール
-*.cache               # キャッシュファイル
+# Node.jsのモジュール
+node_modules/
+# キャッシュファイル
+*.cache
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # Luaフォーマッター設定（生成ファイル）
-*.stylua.toml         # Luaフォーマッターの一時設定
+# Luaフォーマッターの一時設定
+*.stylua.toml
 
 # Lazy.nvim関連
 nvim/lazy-lock.json
 
 # Hyprland関連
-hypr/*.lock           # Hyprlandの一時ロックファイル（もしあれば）
+# Hyprlandの一時ロックファイル（もしあれば）
+hypr/*.lock
 
 # その他
-*.~                   # 一時バックアップファイル
-*~                    # Vimのバックアップファイル
-tags                  # ctags生成ファイル
-session.*             # セッションファイル
+# 一時バックアップファイル
+*.~
+# Vimのバックアップファイル
+*~
+# ctags生成ファイル
+tags
+# セッションファイル
+session.*
 
 # 環境変数関連のファイル
 .env
