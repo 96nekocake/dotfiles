@@ -8,6 +8,6 @@ Run `bash deploy.sh` to preview the links and backups. Run `bash deploy.sh --app
 
 The checked-in `.spotifyd.conf` is an example and is deliberately not deployed. Keep credentials outside this public repository. `.gitconfig.local` is also local to each machine. Starship's file is linked to `~/.config/starship.toml`.
 
-The current `.zshrc` still refers to `~/dotfiles` internally. Linking from another checkout works, but shell initialization from that checkout needs the separate path fix in issue #5 before use. Neovim and other configurations also need validation on the target machine; do not treat this preview as a full installation check.
+The current `.zshrc` resolves its checkout through the symlink, so it can be linked from a clone outside `~/dotfiles`. It installs Zinit on first interactive startup and sources the checked-in Zsh modules. Neovim uses LazyVim with blink.cmp completion and mini.pairs; its headless startup is checked in CI, but completion keys, language servers, and other UI behavior still need testing on the target machine.
 
 Run `bash tests/deploy-test.sh` for an isolated deploy smoke test. It does not change the real home directory.
