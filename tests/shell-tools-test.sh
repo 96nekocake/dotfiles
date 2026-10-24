@@ -7,6 +7,38 @@ zsh -n "$repo/zsh/peco.zsh" "$repo/zsh/plugins.zsh"
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+mkdir -p "$tmp/home/a b"
+PECO_TEST_HOME="$tmp/home" PECO_TEST_SCRIPT="$repo/zsh/peco.zsh" zsh -f <<'ZSH'
+HOME=$PECO_TEST_HOME
+reset_calls=0
+accept_calls=0
+zle() {
+  case $1 in
+    reset-prompt) (( reset_calls += 1 ));;
+    accept-line) (( accept_calls += 1 ));;
+  esac
+  return 0
+}
+bindkey() { return 0 }
+cdr() { print -r -- '1  ~/a b' }
+history() { print -r -- 'git status' }
+peco() { cat }
+source "$PECO_TEST_SCRIPT"
+LBUFFER=
+BUFFER=old
+peco-cdr
+[[ $accept_calls -eq 1 ]] || exit 1
+eval "$BUFFER"
+[[ $PWD == "$HOME/a b" ]] || exit 1
+peco-history-selection
+[[ $BUFFER == 'git status' && $CURSOR -eq ${#BUFFER} ]] || exit 1
+peco() { return 1 }
+BUFFER=keep
+peco-cdr
+[[ $BUFFER == keep && $reset_calls -eq 2 ]] || exit 1
+peco-history-selection
+[[ $BUFFER == keep && $reset_calls -eq 3 ]] || exit 1
+ZSH
 git init -q --bare "$tmp/remote.git"
 git init -q "$tmp/work"
 git -C "$tmp/work" -c user.name=Test -c user.email=test@example.invalid commit -q --allow-empty -m seed
