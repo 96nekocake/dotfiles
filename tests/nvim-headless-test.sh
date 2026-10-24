@@ -15,7 +15,7 @@ ln -s "$repo/nvim" "$XDG_CONFIG_HOME/nvim"
 log="$tmp/nvim.log"
 timeout 240 nvim --headless '+Lazy! sync' '+qa' 2>&1 | tee "$log"
 timeout 60 nvim --headless \
-  -c 'lua if not package.loaded.lazy then vim.cmd("cquit 1") end' \
+  -c 'lua local p = require("lazy.core.config").plugins; assert(p["blink.cmp"] and p["mini.pairs"], "LazyVim default completion/pairs missing"); assert(not p["coc.nvim"] and not p["nvim-cmp"] and not p["nvim-autopairs"], "competing completion/pairs plugins remain")' \
   -c 'qa' 2>&1 | tee -a "$log"
 if grep -E 'Error in command line:|Failed to run `config`|Vim:E[0-9]+|Error detected while processing' "$log"; then
   printf 'Neovim reported a startup or plugin error\n' >&2
