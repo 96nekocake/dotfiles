@@ -22,21 +22,23 @@ jobs:
           bash -n deploy.sh
           zsh -n .zshrc
           for file in zsh/*.zsh; do zsh -n "$file"; done
-          if compgen -G 'tests/*-test.sh' > /dev/null; then
-            for test_file in tests/*-test.sh; do bash "$test_file"; done
-          fi
+          # Only shell integration tests belong in this job; Neovim has its own smoke job.
+          for test_file in tests/deploy-test.sh tests/shell-tools-test.sh tests/zsh-startup-test.sh; do
+            [[ -f "$test_file" ]] || continue
+            bash "$test_file"
+          done
 
   nvim-lua:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - name: Install Lua 5.1
-        run: sudo apt-get update && sudo apt-get install -y lua5.1
+      - name: Install LuaJIT
+        run: sudo apt-get update && sudo apt-get install -y luajit
       - name: Check Neovim Lua syntax
         shell: bash
         run: |
           set -euo pipefail
           while IFS= read -r -d '' file; do
-            luac5.1 -p "$file"
+            luajit -b "$file" /dev/null
           done < <(find nvim -type f -name '*.lua' -print0)
