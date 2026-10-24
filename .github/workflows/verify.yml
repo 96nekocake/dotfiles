@@ -42,3 +42,5 @@ jobs:
           while IFS= read -r -d '' file; do
             luajit -b "$file" /dev/null
           done < <(find nvim -type f -name '*.lua' -print0)
+      - name: Test WezTerm title formatting
+        run: luajit tests/wezterm-format-test.lua
