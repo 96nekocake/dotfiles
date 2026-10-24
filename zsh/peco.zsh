@@ -1,6 +1,9 @@
 function peco-history-selection() {
-    BUFFER=$(history -n 1 | awk '{ lines[NR]=$0 } END { for (i=NR; i>0; i--) print lines[i] }' | awk '!seen[$0]++' | peco) || return
-    CURSOR=$#BUFFER
+    local selection
+    selection=$(history -n 1 | awk '{ lines[NR]=$0 } END { for (i=NR; i>0; i--) print lines[i] }' | awk '!seen[$0]++' | peco) || { zle reset-prompt; return; }
+    [[ -n "$selection" ]] || { zle reset-prompt; return; }
+    BUFFER=$selection
+    CURSOR=${#BUFFER}
     zle reset-prompt
 }
 
@@ -9,10 +12,15 @@ bindkey '^R' peco-history-selection
 
 function peco-cdr() {
     local selected_dir
-    selected_dir=$(cdr -l | sed -E 's/^[[:space:]]*[0-9]+[[:space:]]+//' | peco --prompt='cdr >' --query "$LBUFFER") || return
+    selected_dir=$(cdr -l | sed -E 's/^[[:space:]]*[0-9]+[[:space:]]+//' | peco --prompt='cdr >' --query "$LBUFFER") || { zle reset-prompt; return; }
     if [[ -n "$selected_dir" ]]; then
+        if [[ "$selected_dir" == '~' || "$selected_dir" == '~/'* ]]; then
+            selected_dir=${selected_dir/#\~/$HOME}
+        fi
         BUFFER="cd -- ${(q)selected_dir}"
         zle accept-line
+    else
+        zle reset-prompt
     fi
 }
 
