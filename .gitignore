@@ -71,3 +71,7 @@ session.*
 .env
 .env.*
 !.env.example 
+
+# spotifyd: 設定ファイル以外（認証情報やキャッシュ）はコミットしない
+spotifyd/*
+!spotifyd/spotifyd.conf
